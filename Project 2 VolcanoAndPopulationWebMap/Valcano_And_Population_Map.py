@@ -28,12 +28,13 @@ for la,lo,el,vn in zip(lat,lon,elev,v_name):
     fg.add_child(folium.CircleMarker(location=[la,lo],radius = 7,popup=folium.Popup(iframe),
     color=define_color(el),opacity=0.5, fill_color=define_color(el), fill_opacity=0.5))
     #fg.add_child(folium.Marker(location=[la,lo],popup=folium.Popup(iframe),icon=folium.Icon(color=define_color(el))))
-fg.add_child(folium.Marker(location=[37.455310,-122.15105],popup="3 Crows,icon=folium.Icon(color='beige')))
+fg.add_child(folium.Marker(location=[37.455310,-122.15105],popup="3 Crows",icon=folium.Icon(color='beige')))
 #population layer below
 fgp = folium.FeatureGroup(name="Population")
-fgp.add_child(folium.GeoJson(data=open('world.json','r',encoding='utf-8-sig'),
-style_function = lambda x: {'fillColor':'yellow'}))
-
+fgp.add_child(folium.GeoJson(data=open('world.json','r',encoding='utf-8-sig').read(),
+style_function = lambda x: {'fillColor':'green' if x["properties"]["POP2005"] < 20000000  
+else 'orange' if 20000000 <= x["properties"]["POP2005"] < 50000000 
+else 'red'} ))
 
 
 map.add_child(fg) #add the feature group tp map as a child
